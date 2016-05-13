@@ -8,10 +8,13 @@
   * submit a link to your PR in canvas
 
 ##Description
-Create a simple tcp logging server. This server should receive tcp requests and save the request into a file. Each request should be saved into it's own file and you'll have to find something unique to name them. You can use a UUID library or the current time or any other means of having unique strings that you can think of.
 
- 
+Write a simple TCP chat server. When a client writes (sends a message) to your server, the server should write that message out to all the clients *except* the client that wrote it to the server. Each client should have a username of some sort displayed.
+
 ##Rubric
-unique name: 4pts
-logging into file: 4pts
+chat server: 4pts
+broadcast functionality: 4pts
 testing: 2pts
+
+##Stretch
+Allow clients to set their own usernames. Rather than using telnet from the command line write a Node client for your chat server that takes input from the command line and writes the output from the server.
