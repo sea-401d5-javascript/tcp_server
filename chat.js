@@ -2,22 +2,17 @@
 const net = require('net');
 const sockets = [];
 
-module.exports = function() {
-    net.createServer((socket) => {
-    sockets.push(socket);
-    socket.on('data', (chunk) => {
-      sockets.forEach((sock) => {
-        socket.name = 'Client' + sockets.indexOf(sock);
-        if (socket.name !== sock.name) {
-          socket.write(socket.name + ' says: ' + chunk.toString() + '\n');
-        }
-        if (module.parent) {
-          // for testing
-          socket.write('test received');
-        }
-      });
+net.createServer((socket) => {
+  sockets.push(socket);
+  socket.on('data', (chunk) => {
+    sockets.forEach((sock) => {
+      socket.name = 'Client' + sockets.indexOf(sock);
+      console.log(socket.name);
+      if (socket.name !== sock.name) {
+        socket.write(socket.name + ' says: ' + chunk.toString() + '\n');
+      }
     });
-  }).listen(3000, () => {
-    console.log('listening on port 3000');
-  })
-}
+  });
+}).listen(3000, () => {
+  console.log('listening on port 3000');
+});

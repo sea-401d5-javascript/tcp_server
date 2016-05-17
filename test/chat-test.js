@@ -2,20 +2,37 @@
 
 const net = require('net');
 const expect = require('chai').expect;
-const createServer = require('../chat.js');
 const data = {};
+const sockets = [];
+
+function createServer() {
+  net.createServer((socket) => {
+    sockets.push(socket);
+    socket.on('data', (chunk) => {
+      sockets.forEach((sock) => {
+        socket.name = 'Client' + sockets.indexOf(sock);
+        if (sockets.length === 1 || socket.name !== sock.name) {
+          socket.write('test received');
+        } else {
+          socket.write('not receiving');
+        }
+      });
+    });
+  }).listen(3000, () => {
+    console.log('listening on port 3000');
+  });
+  return checkUniqueNames(sockets);
+}
 
 function createClient(clientName, done) {
+  if (!data[clientName]) data[clientName] = '';
   let client = net.connect(3000, () => {
     client.write('test');
-    if (clientName === 'secondTest') {
-      client.write('test');
-    }
     client.on('data', (chunk) => {
-      if (!data[clientName]) data[clientName] = '';
+      console.log(chunk.toString());
       data[clientName] += chunk.toString();
       done();
-    })
+    });
   }).on('error', (err) => {
     console.log(err);
     client.end();
@@ -23,24 +40,20 @@ function createClient(clientName, done) {
 }
 
 describe('chat test suite', () => {
-  before(() => {
+  before((done) => {
     createServer();
-  })
-  beforeEach('initializes first client for multi-client tests', (done) => {
-    data['test'] = '';
     createClient('test', done);
   });
   it('should receive data from the server', () => {
     expect(data['test']).to.eql('test received');
-  })
+  });
   before((done) => {
-    data['test'] = '';
     createClient('secondTest', done);
-  })
+  });
   it('should send data to clients that did not write it', () => {
-    expect(data['test']).to.eql('test receivedtest received');
-  })
+    expect(data['test']).to.eql('test received');
+  });
   it('should not send data to clients that wrote it', () => {
-    expect(data['secondTest']).to.eql('test received');
-  })
-})
+    expect(data['secondTest']).to.not.eql('test received');
+  });
+});
