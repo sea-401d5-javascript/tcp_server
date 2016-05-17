@@ -2,14 +2,14 @@ const net = require('net');
 
 const clients = [];
 
-net.createServer((socket) => {
+module.exports = exports = net.createServer((socket) => {
   socket.name = socket.remotePort;
   clients.push(socket);
   socket.on('data', (chunk) => {
     console.log(chunk.toString());
     socket.write('MESSAGE RECEIVED\n');
     clients.forEach((s) => {
-      if (socket.name != s.name)
+      if (socket.name !== s.name)
       s.write(socket.name + ': ' + chunk.toString());
     });
   });
