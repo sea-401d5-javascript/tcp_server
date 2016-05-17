@@ -11,7 +11,7 @@ net.createServer((socket) => {
     sockets.forEach((s) => {
       socket.name = Math.floor((Math.random() * 255) + 1);
       if (socket.name != s.name)
-      s.write('BROADCASTING: ' + chunk.toString());
+        s.write('BROADCASTING: ' + chunk.toString());
       console.log(sockets.length);
     });
   });
