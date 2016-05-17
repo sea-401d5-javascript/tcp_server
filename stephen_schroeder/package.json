@@ -1,0 +1,27 @@
+{
+  "name": "tcp_server",
+  "version": "0.1.0",
+  "description": "first TCP chat server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schrode50/tcp_server.git"
+  },
+  "author": "Stephen Schroeder",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schrode50/tcp_server/issues"
+  },
+  "homepage": "https://github.com/schrode50/tcp_server#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "eslint": "^2.10.2",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "mocha": "^2.4.5"
+  }
+}
