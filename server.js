@@ -8,17 +8,18 @@ net.createServer((socket) => {
 
   socket.on('data', (chunk) => {
     clients.forEach((client) => {
-      // if (socket.name !== client.name);
-      client.write(socket.name + ' : ' + chunk.toString());
+      if (socket.name === client.name) return;
+      client.write(socket.name + ': ' + chunk.toString());
     });
   });
 
-  function broadcast(from, message) {
-    sockets.forEach(function(socket, index, array){
-      if (socket.name === from) return;
-      socket.write(message);
-    })
-  }
+  function broadcast(message, socket) {
+    sockets.forEach(function(s){
+      if (s === socket) return;
+      s.write(message);
+    });
+  };
+
 }).listen(3000, () =>{
   console.log('Up on 3000!');
 });
