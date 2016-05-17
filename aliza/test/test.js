@@ -1,15 +1,14 @@
 const net = require('net');
 const expect = require('chai').expect;
 const server = require('../tcp_server');
-const client = require('../tcp_client');
 
 describe('tcp tests', () => {
   it('should send message to all clients, but not to sender', (done) => {
     var result;
     var wroteBack = false;
     var firstClient = net.connect(3000, () => {
-      firstClient.on('data', () => {
-        wroteBack = true;
+      firstClient.on('data', (data) => {
+        if (data.toString() !== 'Sending message\n') wroteBack = true;
       })
       firstClient.write('message');
     })
@@ -19,9 +18,9 @@ describe('tcp tests', () => {
       })
     });
     setTimeout(() => {
-      expect(result).to.eql('message');
+      expect(result.slice(-7)).to.eql('message');
       expect(wroteBack).to.eql(false);
       done();
-    }, 50)
+    }, 200)
   })
 });

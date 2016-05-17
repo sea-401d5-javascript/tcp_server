@@ -7,7 +7,7 @@ module.exports = exports = net.createServer((socket) => {
   clients.push(socket);
   socket.on('data', (chunk) => {
     console.log(chunk.toString());
-    socket.write('MESSAGE RECEIVED\n');
+    socket.write('Sending message\n');
     clients.forEach((s) => {
       if (socket.name !== s.name)
       s.write(socket.name + ': ' + chunk.toString());
