@@ -2,14 +2,21 @@
 
 const net = require('net');
 const fs = require('fs');
+const sockets = [];
 
 const server = net.createServer((socket) => {
+  socket.push = sockets;
+
+  // var response = chunk.toString();
+  // var date = new Date();
+  // fs.writeFile(__dirname + '/response/' + date.toString() + '.txt', response);
+  // console.log(response);
 
   socket.on('data', (chunk) => {
-    var response = chunk.toString();
-    var date = new Date();
-    fs.writeFile(__dirname + '/response/' + date.toString() + '.txt', response);
-    console.log(response);
+    socket.write('message Recieved: ')
+    sockets.forEach((s) => {
+      s.write('Message Recieved: ' + chunk.toString());
+    });
   });
   socket.on('end', () => {
     console.log('socket end');
