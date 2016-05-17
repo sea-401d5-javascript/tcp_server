@@ -1,15 +1,16 @@
 const net = require('net');
 
-const sockets = [];
+const clients = [];
 
 net.createServer((socket) => {
   socket.name = socket.remotePort;
-  sockets.push(socket);
+  clients.push(socket);
   socket.on('data', (chunk) => {
     console.log(chunk.toString());
     socket.write('MESSAGE RECEIVED\n');
-    sockets.forEach((s) => {
-      s.write(socket.name + ': ' + chunk.toString())
+    clients.forEach((s) => {
+      if (socket.name != s.name)
+      s.write(socket.name + ': ' + chunk.toString());
     });
   });
 }).listen(3000, () => {
