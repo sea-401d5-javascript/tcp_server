@@ -4,12 +4,16 @@ const sockets = [];
 
 net.createServer((socket) => {
   sockets.push(socket);
-  socket.on('data', (chunk) => {
-  socket.write('MESSAGE RECIEVED\n');
-  sockets.forEach((s) => {
-      s.write('BROADCASTING: ' + chunk.toString())
-    });
+  socket.on('data', (data) => {
+    broadcast(data.toString(), socket);
   });
+
+    function broadcast(message, socket) {
+      sockets.forEach((s) => {
+        if (s === socket) return;
+        s.write(message);
+      });
+    }
 }).listen(3000, () => {
   console.log('Up on 3000');
 });
