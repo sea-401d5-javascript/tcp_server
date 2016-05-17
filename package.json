@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/stefuhnee/tcp_server/issues"
   },
-  "homepage": "https://github.com/stefuhnee/tcp_server#readme"
+  "homepage": "https://github.com/stefuhnee/tcp_server#readme",
+  "devDependencies": {
+    "mocha": "^2.4.5"
+  }
 }
