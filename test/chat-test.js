@@ -21,7 +21,6 @@ function createServer() {
   }).listen(3000, () => {
     console.log('listening on port 3000');
   });
-  return checkUniqueNames(sockets);
 }
 
 function createClient(clientName, done) {
