@@ -10,7 +10,7 @@ describe('tcp tests', ()=>{
     let wroteBack = false;
     const client1 = net.connect(3000, ()=>{
       client1.on('data', (data)=>{
-        if (data != 'SENDING... \n') wroteBack = true;
+        if (data.toString() !== 'SENDING... \n') wroteBack = true;
       })
       client1.write('testing');
     });
