@@ -1,23 +1,31 @@
 'use strict';
 
 const expect = require('chai').expect;
-const server = require('../tcp_server');
 const net = require('net');
 
-describe('some client tests', () => {
-  // let server;
-  // let client1;
-  // let client2;
-  // let clients = [];
-  // before((done) => {
-  //   server = net.createServer(client) => {
-  //     clients.push(client);
-  //   }
-  //   const client = net.connect(3000, () => {
-  //
-  //     client.write('HERE IS MESSAGE');
-  //   })
-  // })
-  it('mocha should be working', () => {
+require('../tcp_server');
+
+describe('tcp tests', () => {
+  it('it should send a message to all clients except sender', (done) => {
+    let result;
+    let wroteBack = false;
+    const clientOne = net.connect(3000, () => {
+      clientOne.on('data', () => {
+        wroteBack = true;
+      });
+
+      clientOne.write('TEST');
+    });
+    const clientTwo = net.connect(3000, () => {
+      clientTwo.on('data', (data) => {
+        result = data.toString();
+      })
+    });
+
+    setTimeout(() => {
+      expect(result).to.eql('BROADCASTING: TEST');
+      expect(wroteBack).to.eql(false);
+      done();
+    }, 200)
   });
 });
