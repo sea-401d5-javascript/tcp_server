@@ -1,1 +1,3 @@
-module.exports = require(__dirname + '/client_server');
+const server = require(__dirname + '/lib/server');
+
+server.start();

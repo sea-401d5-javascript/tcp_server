@@ -10,7 +10,7 @@ gulp.task('test:mocha', () => {
 });
 
 gulp.task('lint:tests', () => {
-  return gulp.src('./test/**/*test.js')
+  return gulp.src('./test/*.js')
   .pipe(eslint())
   .pipe(eslint.format());
 });
